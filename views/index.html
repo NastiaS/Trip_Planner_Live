@@ -10,33 +10,33 @@
     <div id="control-panel" class="col-sm-4 col-lg-3 clearfix">
       <div class="col-xs-6 col-sm-12">
         <div class="panel panel-default">
-          <div class="panel-body">
-            <div>
+          <div id="top-panel" class="panel-body">
+            <div class="hotel">
               <h4>Hotels</h4>
-              <select>
+              <select id="hotelSelect">
               {% for hotel in hotels %}
-                <option>{{ hotel.name }}</option>
+                <option value='{{ hotel.id }}'>{{hotel.name}}</option>
               {% endfor %}
               </select>
-              <button class="btn btn-primary btn-circle pull-right">+</button>
+              <button class="hotel btn btn-primary btn-circle pull-right">+</button>
             </div>
-            <div>
+            <div class="restaurant">
               <h4>Restaurants</h4>
               <select>
               {% for restaurant in restaurants %}
-                <option>{{ restaurant.name }}</option>
+                <option value="{{ restaurant._id }}">{{ restaurant.name }}</option>
               {% endfor %}
               </select>
-              <button class="btn btn-primary btn-circle pull-right">+</button>
+              <button class="restaurant btn btn-primary btn-circle pull-right">+</button>
             </div>
-            <div>
+            <div class="ttdo">
               <h4>Things To Do</h4>
               <select>
               {% for thingToDo in thingsToDo %}
                 <option>{{ thingToDo.name }}</option>
               {% endfor %}
               </select>
-              <button class="btn btn-primary btn-circle pull-right">+</button>
+              <button class="ttdo btn btn-primary btn-circle pull-right">+</button>
             </div>
           </div>
         </div>
@@ -57,10 +57,10 @@
               <button class="btn btn-circle day-btn">+</button>
             </div>
           </div>
-          <div class="panel-body">
+          <div id="bottom-panel" class="panel-body">
             <div>
               <h4>My Hotel</h4>
-              <ul class="list-group">
+              <ul class="list-group hotel">
                 <div class="itinerary-item">
                   <span class="title">Andaz Wall Street</span><button class="btn btn-xs btn-danger remove btn-circle">x</button>
                 </div>
@@ -68,7 +68,7 @@
             </div>
             <div>
               <h4>My Restaurants</h4>
-              <ul class="list-group">
+              <ul class="list-group restaurant">
                 <div class="itinerary-item">
                   <span class="title">Bouley</span><button class="btn btn-xs btn-danger remove btn-circle">x</button>
                 </div>
@@ -79,7 +79,7 @@
             </div>
             <div>
               <h4>My Things To Do</h4>
-              <ul class="list-group">
+              <ul class="list-group ttdo">
                 <div class="itinerary-item">
                   <span class="title">Mahayana Buddhist Temple Association</span><button class="btn btn-xs btn-danger remove btn-circle">x</button>
                 </div>
@@ -98,9 +98,11 @@
     // here we use swig to turn the `hotels` into a stringified representation. But because we add this string to some JS in a script tag, when the client loads it, it will actually set that object as a variable. So now we have an `all_hotels` array on the front-end — check it out in your console!
     {% autoescape false %}
     var all_hotels = {{ hotels | json }};
+    console.log(all_hotels);
     var all_restaurants = {{ restaurants | json }};
     var all_things_to_do = {{ thingsToDo | json }};
     {% endautoescape %}
   </script>
+
 
 {% endblock %}
