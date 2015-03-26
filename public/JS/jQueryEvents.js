@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+var existingHotelMarker;
+
 $("#top-panel .hotel").on("click", 'button' , function(){
 	var value = $('#hotelSelect').val();
 	var item = _.where(all_hotels, {_id: value})[0];
@@ -10,10 +12,12 @@ $("#top-panel .hotel").on("click", 'button' , function(){
 	var loc = new google.maps.LatLng(location[0],location[1]);
 	marker = new google.maps.Marker({
 		position: loc,
-		map: map,
+	//	map: map,
 		title: "Something"
 	})
-
+	if (existingHotelMarker) { existingHotelMarker.setMap(null) }
+	existingHotelMarker = marker;	
+	marker.setMap(map);
 });
 
 
