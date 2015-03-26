@@ -1,10 +1,13 @@
 $(document).ready(function(){
 
+
 var existingHotelMarker;
 
 $("#top-panel .hotel").on("click", 'button' , function(){
 	var value = $('#hotelSelect').val();
+	console.log(value);
 	var item = _.where(all_hotels, {_id: value})[0];
+	console.log(item);
 	$('.hotel .title')[0].firstChild.data = item.name;
 	//debugger;
 	var location = item.place[0].location;
