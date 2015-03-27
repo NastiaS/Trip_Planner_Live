@@ -11,7 +11,6 @@ function updateMarkers (max, current, neo) {   // current is an array of current
 $('.day-buttons').on('click', 'button', function() {
 	
 	var label = $(this).text();
-	console.log(label);
 
 	if (label == '+') {    // add a day ( up to 8 )
 		var days = $('.day-buttons').children().length;
@@ -21,7 +20,7 @@ $('.day-buttons').on('click', 'button', function() {
 		} 
 	}
 
-	// button that was pressed is highlighted
+	// button that was pressed is now highlighted
 	$('.day-buttons').children().removeClass('current-day');
 	$(this).addClass('current-day');
 
@@ -48,12 +47,14 @@ $("#top-panel .hotel").on("click", 'button' , function(){
 	var loc = new google.maps.LatLng(location[0],location[1]);
 	marker = new google.maps.Marker({
 		position: loc,
+		icon: '/images/lodging_0star.png',     // hotel image
 	//	map: map,
-		title: "Something"
+		title: item.name
 	})
 	if (existingHotelMarker) { existingHotelMarker.setMap(null) }
 	existingHotelMarker = marker;	
 	marker.setMap(map);
+
 });
 
 $('#top-panel .restaurant').on('click', 'button', function() {
@@ -62,7 +63,9 @@ $('#top-panel .restaurant').on('click', 'button', function() {
     var value = $('#restaurantSelect').val();
     var item = _.where(all_restaurants, {_id: value})[0];
     if ($('ul.restaurant').children().length < 3) {
-      var element = $('<div class="itinerary-item"><span class="title">' + item.name + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>');
+      var element = $('<div class="itinerary-item"><span class="title">' + 
+      	item.name + '</span><button class="btn btn-xs btn-danger ' + 
+      	'remove btn-circle">x</button></div>');
         $('ul.restaurant').append(element);
     }
     var location = item.place[0].location;
@@ -70,13 +73,23 @@ $('#top-panel .restaurant').on('click', 'button', function() {
 	var loc = new google.maps.LatLng(location[0],location[1]);
 	marker = new google.maps.Marker({
 		position: loc,
+		icon: '/images/restaurant.png',  // restaurant image
+		
 	//	map: map,
-		title: "Something"
+		title: item.name
 	})
 	if (existingRestaurantMarkers.length < 3) { 
 		marker.setMap(map); 
 		existingRestaurantMarkers.push(marker);
 	}
+
+	var infowindow = new google.maps.InfoWindow({
+      content: '<img src="http://www.da-files.com/contests/wechat/mon01.gif" style="height: 60px;">'
+    });
+
+	google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(map,marker);
+    });
 })
 
 $('#top-panel .ttdo').on('click', 'button', function() {
@@ -84,7 +97,9 @@ $('#top-panel .ttdo').on('click', 'button', function() {
     var value = $('#ttdoSelect').val();
     var item = _.where(all_things_to_do, {_id: value})[0];
     if ($('ul.ttdo').children().length < 3) {
-      var element = $('<div class="itinerary-item"><span class="title">' + item.name + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>');
+      var element = $('<div class="itinerary-item"><span class="title">' + 
+      	item.name + '</span><button class="btn btn-xs btn-danger ' + 
+      	'remove btn-circle">x</button></div>');
 
         $('ul.ttdo').append(element);
     }
@@ -93,8 +108,9 @@ $('#top-panel .ttdo').on('click', 'button', function() {
 	var loc = new google.maps.LatLng(location[0],location[1]);
 	marker = new google.maps.Marker({
 		position: loc,
+		icon: '/images/star-3.png',    // activity image
 	//	map: map,
-		title: "Something"
+		title: item.name
 	})
 	if (existingToDoMarkers.length < 3) { 
 		marker.setMap(map); 
