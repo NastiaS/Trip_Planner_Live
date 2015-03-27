@@ -8,10 +8,35 @@ function updateMarkers (max, current, neo) {   // current is an array of current
   											// new is the new marker to add to the map
 }
 
+$('.day-buttons').on('click', 'button', function() {
+	
+	var label = $(this).text();
+	console.log(label);
+
+	if (label == '+') {    // add a day ( up to 8 )
+		var days = $('.day-buttons').children().length;
+		if (days < 8) {		
+			$(this).text(days);
+			$('.day-buttons').append('<button class="btn btn-circle day-btn">+</button>');
+		} 
+	}
+
+	// button that was pressed is highlighted
+	$('.day-buttons').children().removeClass('current-day');
+	$(this).addClass('current-day');
+
+	// update day title tag
+	if ($(this).text() !== '+') {
+		$('#day-title span').text('Day ' + $(this).text());
+	}
+});
+
 $("#top-panel .hotel").on("click", 'button' , function(){
 	var value = $('#hotelSelect').val();
 	var item = _.where(all_hotels, {_id: value})[0];
-	var element = $('<div class="itinerary-item"><span class="title">' + item.name + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>');
+	var element = $('<div class="itinerary-item"><span class="title">' + 
+		item.name + '</span><button class="btn btn-xs btn-danger ' + 
+		'remove btn-circle">x</button></div>');
 	if ($('ul.hotel').children().length == 1) {
 		$('ul.hotel').children()[0].remove();
 	}
